@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 123, 0, 0.726);
+        }
+
+        body div:first-child {
+            background-color: white;
+            width: 400px;
+            height: 380px;
+            margin: auto;
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 80px;
+            font-family: "Dancing Script";
+            position: relative;
+            border: 1px solid black;
+
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 900;
+            color: green;
+            position: absolute;
+            top: 5px;
+            right: 38px;
+
+        }
+
+        h2:nth-child(2) {
+            top: 5px;
+            left: 38px;
+        }
+
+        h2:nth-child(3) {
+            top: 5px;
+            left: calc(50% - 38px);
+        }
+
+        #info {
+            font-size: 60px;
+            font-weight: 900;
+            color: black;
+            position: absolute;
+            top: 65%;
+            right: calc(50% - 120px);
+            opacity: 0;
+        }
+
+        h1 {
+            font-size: 45px;
+            margin: 10px 0px 15px 0px;
+        }
+
+        input {
+            width: 90%;
+            height: 45px;
+            border-radius: 4px;
+            border: 0.5px solid black;
+            text-align: center;
+            font-size: 20px;
+            box-sizing: border-box;
+            margin: 10px 0px 15px 0px;
+
+        }
+
+        input:hover {
+            border: 4px solid green;
+        }
+
+        button {
+            width: 90%;
+            height: 45px;
+            border-radius: 4px;
+            border: 2px solid green;
+            background-color: green;
+            margin: 15px 0px 5px 0px;
+            font-size: 18px;
+        }
+
+        button:hover {
+            background-color: rgb(0, 255, 0);
+            font-size: 20px;
+        }
+
+        body div:nth-child(2) {
+            font-family: "Dancing Script";
+            font-size: 75px;
+            position: fixed;
+            top: 35px;
+            right: calc(50% - 300px);
+        }
+
+        @keyframes animation1 {
+
+            0% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 0;
+            }
+
+        }
+
+        @keyframes animation2 {
+
+            0% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 0;
+            }
+
+        }
+
+
+
+        .ani1 {
+            animation-name: animation1;
+            animation-duration: 2s;
+        }
+
+        .ani2 {
+            animation-name: animation2;
+            animation-duration: 2s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <h2>PONTOS: <span id="score">0</span></h2>
+        <h2>TEMPO: <span id="tempo">15</span></h2>
+        <h2>NIVEL: <span id="niv">1</span></h2>
+        <h2 id="info" class="ani1"><span>Bom Jogo!</span></h2>
+        <h1>Quanto é <span id="n1">2</span> vezes <span id="n2">4</span>?</h1>
+        <input type="number" placeholder="Qual a sua resposta?" autofocus>
+        <button type="submit">ENVIAR!!</button>
+
+
+    </div>
+
+    <div>
+        jogo da multiplicação
+    </div>
+
+
+
+
+    <script>
+
+        let num1 = document.getElementById("n1");
+        let num2 = document.getElementById("n2");
+        let score = document.getElementById("score");
+        let tempo = document.getElementById("tempo");
+        let niv = document.getElementById("niv");
+        let info = document.querySelector("#info");
+        let resp = document.querySelector("input");
+        let con = 10;
+        let nivel = 1;
+        let tempoInicial = 16;
+
+        setInterval(contador, 1000)
+
+        document.addEventListener("keypress", function (e) {
+
+            if (e.key === "Enter") {
+
+                verificar();
+            }
+        });
+
+        document.querySelector("button").addEventListener("click", verificar)
+
+
+
+
+        function verificar() {
+            let n1 = num1.innerHTML;
+            let n2 = num2.innerHTML;
+
+
+            if ((n1 * n2) == document.querySelector("input").value) {
+
+                score.innerHTML = parseInt(score.innerHTML) + 1;
+                tempo.innerHTML = tempoInicial;
+                info.innerHTML = "acertou!!!"
+                info.classList.toggle("ani1");
+                info.classList.toggle("ani2");
+
+            } else {
+                alert("Errou, Você desceu de nivel!!!");
+                score.innerHTML = 0;
+                tempo.innerHTML = tempoInicial;
+
+
+
+                if (nivel != 1) {
+                    nivel--;
+                    niv.innerHTML = niv.innerHTML - 1;
+                    con -= 5;
+                }
+
+            }
+
+            if (score.innerHTML == "5") {
+                con += 5;
+                score.innerHTML = "0"
+                niv.innerHTML = parseInt(niv.innerHTML) + 1;
+                nivel++;
+                alert("Parabéns, você subiu de nivel")
+            }
+
+            num1.innerHTML = Math.round(Math.random() * con);
+            num2.innerHTML = Math.round(Math.random() * con);
+
+            resp.value = null;
+            resp.focus();
+
+
+        }
+
+        function contador() {
+
+            tempo.innerHTML = tempo.innerHTML - 1;
+
+            if (tempo.innerHTML == 0) {
+                num1.innerHTML = Math.round(Math.random() * con);
+                num2.innerHTML = Math.round(Math.random() * con);
+                tempo.innerHTML = tempoInicial;
+
+                alert("Tempo esgotado! você desceu de nivel!!")
+                if (nivel != 1) {
+                    nivel--;
+                    niv.innerHTML = niv.innerHTML - 1;
+                    con -= 5;
+                }
+            }
+
+
+        }
+
+
+
+    </script>
+</body>
+
+</html>
